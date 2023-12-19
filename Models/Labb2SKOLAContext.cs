@@ -65,6 +65,8 @@ public partial class Labb2SKOLAContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
+            entity.HasKey(e => e.EmployeeId);
+            entity.ToTable("Employees");
             entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
             entity.Property(e => e.FirstName).HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(50);
@@ -72,19 +74,26 @@ public partial class Labb2SKOLAContext : DbContext
 
         modelBuilder.Entity<EmployeeProfession>(entity =>
         {
-            entity.HasNoKey();
+            // La till dessa för att få det att fungera mellan mitt ConectionTable EmployeeProfession
+            // var även tvungen att ändra i min databas på EmployeeProfession 
+            // FKProfessionTitleID och FKEmployeeID, ändrade till Cascade istället
+            // för No Action via Deisgn, Högerklicka på Namnen,
+            // gå till Relationships => INSERT And UPDATE Spec => DeleteRule - Cascade
+            //.... UpdateRule - Cascade  från (No Action)
+            entity.HasKey(e => new { e.FkemployeeId, e.FkprofessionTitleId });
+            entity.ToTable("EmployeeProfessions");
 
             entity.Property(e => e.FkemployeeId).HasColumnName("FKEmployeeID");
             entity.Property(e => e.FkprofessionTitleId).HasColumnName("FKProfessionTitleID");
 
             entity.HasOne(d => d.Fkemployee).WithMany()
                 .HasForeignKey(d => d.FkemployeeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.ClientCascade)
                 .HasConstraintName("FK_EmployeeProfessions_Employees");
 
             entity.HasOne(d => d.FkprofessionTitle).WithMany()
                 .HasForeignKey(d => d.FkprofessionTitleId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.ClientCascade)
                 .HasConstraintName("FK_EmployeeProfessions_Professions");
         });
 
@@ -118,9 +127,10 @@ public partial class Labb2SKOLAContext : DbContext
         modelBuilder.Entity<Profession>(entity =>
         {
             entity.HasKey(e => e.ProfessionTitleId).HasName("PK_Roller");
-
+            entity.ToTable("Professions");
             entity.Property(e => e.ProfessionTitleId).HasColumnName("ProfessionTitleID");
             entity.Property(e => e.ProfessionName).HasMaxLength(50);
+
         });
 
         modelBuilder.Entity<Student>(entity =>

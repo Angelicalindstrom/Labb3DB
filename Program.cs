@@ -1099,33 +1099,36 @@ namespace Labb3DB
                     } while (true);
 
 
+                    //Query - chosenProfession, fysiskt objekt för att hämta instans av professionobjektet 
+                    Profession chosenProfession = dbContext.Professions.First(profession => profession.ProfessionTitleId == chosenProfessionID);
 
-                    // Kopplar anställd med det valda yrket och lägger till i databasen
-                                                                                                            //PROBLEM
-                    var employeeProfession = new EmployeeProfession
+
+                    Console.Write($"Du valde Yrkestitel ID(({chosenProfessionID})), Du valde {chosen} : ");
+
+                    // Kopplar FkemployeeID( newEmployee(ny anställd) )
+                    // med det valda yrket av användare(chosenProfession)
+                    // med FkProfessional och lägger till i EmployeeProfession databasen
+                    // Connection mellan den nya employee och valt profession
+                    // var tvungen att ändra i Labb2SKOLAContext och i databasen
+                    var employeeProfessional = new EmployeeProfession
                     {
                         FkemployeeId = newEmployee.EmployeeId,
-                        FkprofessionTitleId = chosenProfessionID
-                        
-                        
+                        FkprofessionTitleId = chosenProfession.ProfessionTitleId
                     };
-                    dbContext.EmployeeProfessions.Add(employeeProfession);
+
+                    Console.WriteLine($"{employeeProfessional.FkprofessionTitle}");
+                    dbContext.EmployeeProfessions.Add(employeeProfessional);
                     dbContext.SaveChanges();
-                    //**************************************************************************************************************************************
-                    // Lägger till anställd.. MEN Professions=?
-                    //FRÅÅÅÅÅÅÅÅÅÅÅÅÅÅGA
-                    // Varför kopplas inte FK?
-                    // Måste det vara en PrimaryKey??
-                    // Chosen sparas nu i en string? Därför den inte kan kopplas till PrimeryKey, INT?
-                    // men chosen ska bara ge utdata till användaren?
-                    // chosenProfessionID styr?
-
-
+                    // skapar ny post i Employeeprofession tabellen för att koppla den nya läraren med det valdra yrket
 
                     Console.WriteLine($"Ny anställd - Förnamn : {firstName}\nEfternamn : {lastName}" +
                         $"\nNy yrkestitel : '{chosen}' tillagd!");
-                    // skapar ny post i Meployeeprofession tabellen för att koppla den nya läraren med det valdra yrkek
                     // info till användaren
+                     
+                       
+                        
+
+
                 }
                 catch (Exception ex)
                 {
