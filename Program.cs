@@ -10,7 +10,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Labb3DB
 { // Angelica Lindström NET.23
-    internal class Program
+    public class Program
     {
         public static string connectionString = "Server=LAPTOP-VLADGQVE;Database=Labb2SKOLA;Trusted_Connection=true;Encrypt=false";
         static void Main(string[] args)
@@ -465,7 +465,7 @@ namespace Labb3DB
         public static void GetAllStudentsInOrder()
         {
             Console.Clear();
-            using Labb2SKOLAContext labb2Skola = new Labb2SKOLAContext();
+            using Labb2SkolaContext labb2Skola = new ();
 
             Console.WriteLine("\n----------ALLA ELEVER I VÅR DATABAS i databasOrdning-----------");
             var studentList = labb2Skola.Students.ToList();
@@ -483,7 +483,7 @@ namespace Labb3DB
         public static void GetAllStudentsOrderedByFirstName()
         {// SORTERA MED A, förnamn som FÖRSTA bokstav i Listan
             Console.Clear();
-            using Labb2SKOLAContext labb2Skola = new Labb2SKOLAContext();
+            using Labb2SkolaContext labb2Skola = new ();
 
             Console.WriteLine("\n----------A FÖRST FÖRNAMN-----------");
             var sortedStudents = labb2Skola.Students
@@ -500,7 +500,7 @@ namespace Labb3DB
         public static void GetAllStudentsOrderedByFirstNameDescending()
         {// SORTERA MED A, Förnamn som SISTA bokstav i listan
             Console.Clear();
-            using Labb2SKOLAContext labb2Skola = new Labb2SKOLAContext();
+            using Labb2SkolaContext labb2Skola = new ();
 
             Console.WriteLine("\n-----------****A SIST FÖRNAMN*****----------");
             var sortedStudentsALastList = labb2Skola.Students
@@ -517,7 +517,7 @@ namespace Labb3DB
         public static void GetAllStudentsOrderedByLastName()
         { // SORTERA MED A SOM FÖRSTA BOKSTAV I EFETNAMN
             Console.Clear();
-            using Labb2SKOLAContext labb2Skola = new Labb2SKOLAContext();
+            using Labb2SkolaContext labb2Skola = new ();
 
             Console.WriteLine("\n----------!!A FÖRST EFTERNAMN!!-----------");
             var sortLastNameStudents1 = labb2Skola.Students
@@ -535,7 +535,7 @@ namespace Labb3DB
         public static void GetAllStudentsOrderedByLastNameDescending()
         {// SORTERA MED A, EFTERNAMN som SISTA bokstav i listan
             Console.Clear();
-            using Labb2SKOLAContext labb2Skola = new Labb2SKOLAContext();
+            using Labb2SkolaContext labb2Skola = new ();
 
             Console.WriteLine("\n----------!!A SIST EFTERNAMN!!-----------");
             var sortLastNameStudents2 = labb2Skola.Students
@@ -560,7 +560,7 @@ namespace Labb3DB
         //sedan får användaren välja en av klasserna och då skrivs alla elever i den klassen ut.
         static void GetStudentsByClassID()
         {
-            using (var labb2skola = new Labb2SKOLAContext())
+            using (var labb2skola = new Labb2SkolaContext())
             {
                 try
                 {
@@ -599,7 +599,7 @@ namespace Labb3DB
                 }
             }
         }
-        static void DisplayStudentsInClass(Labb2SKOLAContext context, int classID)
+        static void DisplayStudentsInClass(Labb2SkolaContext context, int classID)
         {
             var students = context.ClassStudents
                 .Where(cs => cs.FkclassId == classID)
@@ -969,7 +969,7 @@ namespace Labb3DB
         // Uppgift 6  
         public static void AddNewStudent()
         {
-            using (var dbContext = new Labb2SKOLAContext())
+            using (var dbContext = new Labb2SkolaContext())
             {
                 Console.WriteLine("Ange information för den nya eleven:");
 
@@ -1007,7 +1007,7 @@ namespace Labb3DB
         // Uppgift 7        FRÅGA OM FORENKEY?? REIDAR? KAN EJ KOPPLA TILL VALT YRKE*************************************************************
         public static void AddNewTeacher()
         {
-            using (var dbContext = new Labb2SKOLAContext())
+            using (var dbContext = new Labb2SkolaContext())
             {
                 Console.WriteLine("Ange information för den nya anställda:");
 
@@ -1125,8 +1125,6 @@ namespace Labb3DB
                         $"\nNy yrkestitel : '{chosen}' tillagd!");
                     // info till användaren
                      
-                       
-                        
 
 
                 }
